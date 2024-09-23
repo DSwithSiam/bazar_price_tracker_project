@@ -14,15 +14,17 @@
                 <tr>
                     <th>Product</th>
                     <th>Price</th>
+                    <th>Market</th>
                 </tr>
             </thead>
             <tbody>
-                {% comment %} {% for price in prices %}
+                {% for product in products %}
                 <tr>
-                    <td>{{ price.product }}</td>
-                    <td>{{ price.amount }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.market }}</td>
                 </tr>
-                {% endfor %} {% endcomment %}
+                {% endfor %}
             </tbody>
         </table>
     </div>
