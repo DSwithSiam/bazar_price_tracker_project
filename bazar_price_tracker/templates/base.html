@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="static/css/fontawesome.css">
+        <link rel="stylesheet" href="static/css/templatemo-villa-agency.css">
+        <link rel="stylesheet" href="static/css/owl.css">
+        <link rel="stylesheet" href="static/css/animate.css">
+        <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+        >
+        <title> {% block title %} {% endblock title %}</title>
+    </head>
+
+    
+
+    <body  style="background-color: rgb(238, 244, 245);">
+
+        <header>
+            <nav>
+                <div class="navbar">
+                    <!-- Bazar Name (Logo or Title) -->
+                    <div class="navbar-brand">
+                        <a href="/">BazarPriceTracker</a>
+                    </div>
+        
+                    <!-- Menu items -->
+                    <ul class="navbar-menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        
+                        <!-- Search Bar -->
+                        <li>
+                            <form action="/search/" method="GET">
+                                <input type="text" name="q" placeholder="Search products..." required>
+                                <button type="submit">Search</button>
+                            </form>
+                        </li>
+                    </ul>
+        
+                    <!-- Right side (Login, Profile, Logout) -->
+                    <ul class="navbar-user-menu">
+                        {% if user.is_authenticated %}
+                            <li><a href="/profile/">Profile</a></li>
+                            <li><a href="/logout/">Logout</a></li>
+                        {% else %}
+                            <li><a href="/login/">Login</a></li>
+                            <li><a href="/signup/">Sign Up</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+            <style>
+                /* Basic styling for the navbar */
+                .navbar {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px 20px;
+                    background-color: #333;
+                    color: white;
+                }
+                
+                .navbar-brand a {
+                    font-size: 24px;
+                    color: white;
+                    text-decoration: none;
+                }
+                
+                .navbar-menu, .navbar-user-menu {
+                    list-style: none;
+                    display: flex;
+                    gap: 15px;
+                }
+                
+                .navbar-menu a, .navbar-user-menu a {
+                    color: white;
+                    text-decoration: none;
+                }
+                
+                .navbar-menu a:hover, .navbar-user-menu a:hover {
+                    color: #ddd;
+                }
+            
+                /* Search form styling */
+                form {
+                    display: flex;
+                }
+            
+                input[type="text"] {
+                    padding: 5px;
+                    border-radius: 4px;
+                    border: 1px solid #ccc;
+                }
+            
+                button[type="submit"] {
+                    padding: 5px 10px;
+                    background-color: #555;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                }
+            
+                button[type="submit"]:hover {
+                    background-color: #777;
+                }
+            </style>
+            
+        </header>
+        
+        
+
+
+        {% block content %} 
+
+        {% endblock content %}
+
+
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p>&copy; 2024 Bazar Price Tracker. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p>Terms of Service</p>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <p>Developed by <a href="https://github.com/DsWithSiam" target="_blank">Siam</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <style>
+            /* Add custom styles here */
+            body {
+                background-color: #f8f9fa;
+            }
+    
+            .hero-section {
+                background-image: url('path/to/your/image.jpg');
+                background-size: cover;
+                color: #fff;
+                text-align: center;
+                padding: 100px 0;
+            }
+    
+            .featured-hotels {
+                padding: 10px 0;
+            }
+    
+            .hotel-card {
+                margin-bottom: 10px;
+            }
+    
+            .footer {
+                background-color: #343a40;
+                color: #fff;
+                padding: 20px 0;
+                text-align: center;
+            }
+        </style>
+            <!-- Additional CSS Files -->
+    
+    
+    <script src="static/vendor/jquery/jquery.min.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/js/isotope.min.js"></script>
+    <script src="static/js/owl-carousel.js"></script>
+    <script src="static/js/counter.js"></script>
+    <script src="static/js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+    
+
+</html>
