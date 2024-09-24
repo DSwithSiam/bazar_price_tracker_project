@@ -1,0 +1,211 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block title %} 
+Home 
+{% endblock title %} 
+
+{% block content %}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-img">
+            <img src="/static/images/profile-pic.jpg" alt="Profile Picture">
+        </div>
+        <div class="profile-info">
+            <h1>{{ user.username }}</h1>
+            <p>{{ user.email }}</p>
+        </div>
+    </div>
+
+    <div class="profile-body">
+        <h2>Manager Information</h2>
+        <table class="profile-table">
+            <tr>
+                <th>Full Name</th>
+                <td> user.first_name  user.last_name </td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>user.email</td>
+            </tr>
+            <tr>
+                <th>Market</th>
+                <td>user.market.name </td>
+            </tr>
+        </table>
+
+        <!-- Add Item Section -->
+        <h2>Add New Product</h2>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group", >
+                <label for="item_name">Product Name:</label>
+                <input type="text" id="item_name" name="item_name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price per kg:</label>
+                <input type="number" id="price" name="price" class="form-control" required>
+            </div>
+            
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </div>
+            
+        </form>
+
+        <!-- Display Added Products -->
+        <h2 style="margin-top: 20px;">Added Products</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price per kg</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>product.name </td>
+                    <td>product.price </td>
+                    <td>
+                        {% comment %} {% url 'update_product' product.id %} {% endcomment %}
+                        <a href="" class="btn btn-secondary">Update</a>
+                        <a href="" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Profile Page Styles -->
+<style>
+    .profile-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: #343a40;
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .profile-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-info h1 {
+        font-size: 28px;
+        margin-bottom: 5px;
+    }
+
+    .profile-info p {
+        font-size: 16px;
+        color: #ddd;
+    }
+
+    .profile-body h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .profile-table, .table-bordered {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .profile-table th, .profile-table td, .table-bordered th, .table-bordered td {
+        padding: 12px 15px;
+        border: 1px solid #dee2e6;
+        text-align: left;
+    }
+
+    .profile-table th, .table-bordered th {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        margin-left: 5px;
+        color: white;
+    }
+
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        margin-left: 40px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+</style>
+
+    
+    
+
+
+
+{% endblock %}

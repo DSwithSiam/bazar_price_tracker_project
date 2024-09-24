@@ -38,85 +38,139 @@
                         <li><a href="/">Home</a></li>
                         <li><a href="/about">About</a></li>
                         <li><a href="/contact">Contact</a></li>
-                        
-                        <!-- Search Bar -->
-                        <li>
-                            <form action="/search/" method="GET">
-                                <input type="text" name="q" placeholder="Search products..." required>
-                                <button type="submit">Search</button>
-                            </form>
-                        </li>
                     </ul>
         
                     <!-- Right side (Login, Profile, Logout) -->
-                    <ul class="navbar-user-menu">
-                        {% if user.is_authenticated %}
-                            <li><a href="/profile/">Profile</a></li>
-                            <li><a href="/logout/">Logout</a></li>
-                        {% else %}
-                            <li><a href="/login/">Login</a></li>
-                            <li><a href="/signup/">Sign Up</a></li>
-                        {% endif %}
-                    </ul>
+                    <div class="navbar-right">
+                        
+                        <!-- User Menu -->
+                        <ul class="navbar-user-menu">
+                            {% if user.is_authenticated %}
+                                <li><a href="/profile/">Profile</a></li>
+                                <li><a href="/logout/">Logout</a></li>
+                            {% else %}
+                                <li><a href="/login/">Login</a></li>
+                                <li><a href="/signup/">Sign Up</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </nav>
+        
             <style>
-                /* Basic styling for the navbar */
+                /* Navbar container */
                 .navbar {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                     padding: 10px 20px;
-                    background-color: #333;
+                    background-color: #2C3E50; /* Dark blue */
                     color: white;
                 }
-                
+        
+                /* Branding (BazarPriceTracker) */
                 .navbar-brand a {
-                    font-size: 24px;
+                    font-size: 28px;
+                    font-weight: bold;
                     color: white;
                     text-decoration: none;
                 }
-                
-                .navbar-menu, .navbar-user-menu {
+        
+                /* Menu items */
+                .navbar-menu {
+                    list-style: none;
+                    display: flex;
+                    gap: 20px;
+                }
+        
+                .navbar-menu a {
+                    color: white;
+                    text-decoration: none;
+                    font-size: 16px;
+                    padding: 10px;
+                    transition: color 0.3s;
+                }
+        
+                .navbar-menu a:hover {
+                    color: #1ABC9C; /* Light green on hover */
+                }
+        
+                /* Right-side container for search and user menu */
+                .navbar-right {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                }
+        
+                /* Search bar */
+                form {
+                    display: flex;
+                    border-radius: 4px;
+                    background-color: #34495E; /* Slightly lighter than navbar */
+                    padding: 5px;
+                }
+        
+                input[type="text"] {
+                    border: none;
+                    padding: 7px;
+                    border-radius: 4px;
+                    margin-right: 10px;
+                    background-color: #FFF;
+                    color: #333;
+                }
+        
+                button[type="submit"] {
+                    background-color: #1ABC9C; /* Light green */
+                    color: white;
+                    border: none;
+                    padding: 7px 12px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+        
+                button[type="submit"]:hover {
+                    background-color: #16A085; /* Darker green */
+                }
+        
+                /* User menu styling */
+                .navbar-user-menu {
                     list-style: none;
                     display: flex;
                     gap: 15px;
                 }
-                
-                .navbar-menu a, .navbar-user-menu a {
+        
+                .navbar-user-menu a {
                     color: white;
                     text-decoration: none;
+                    font-size: 16px;
+                    padding: 10px;
+                    transition: color 0.3s;
                 }
-                
-                .navbar-menu a:hover, .navbar-user-menu a:hover {
-                    color: #ddd;
+        
+                .navbar-user-menu a:hover {
+                    color: #1ABC9C; /* Light green on hover */
                 }
-            
-                /* Search form styling */
-                form {
-                    display: flex;
-                }
-            
-                input[type="text"] {
-                    padding: 5px;
-                    border-radius: 4px;
-                    border: 1px solid #ccc;
-                }
-            
-                button[type="submit"] {
-                    padding: 5px 10px;
-                    background-color: #555;
-                    color: white;
-                    border: none;
-                    border-radius: 4px;
-                }
-            
-                button[type="submit"]:hover {
-                    background-color: #777;
+        
+                /* Responsive Design */
+                @media (max-width: 768px) {
+                    .navbar {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+        
+                    .navbar-menu, .navbar-user-menu {
+                        flex-direction: column;
+                        width: 100%;
+                        text-align: left;
+                    }
+        
+                    form {
+                        width: 100%;
+                    }
                 }
             </style>
-            
         </header>
+        
         
         
 
