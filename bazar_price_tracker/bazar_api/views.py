@@ -1,5 +1,9 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from bazar_api.forms import EditMarketManagerForm
+
 
 def fetch_products():
     # Fetch data from the API
@@ -29,10 +33,12 @@ def fetch_products():
     
     return products
 
+
 def home(request):
     # Fetch fresh products data
     products = fetch_products()
     return render(request, 'home.html', {'products': products})
+
 
 def Search_results(request):
     # Fetch fresh products data
@@ -63,6 +69,61 @@ def Search_results(request):
     
     return render(request, 'search_results.html', {'results': results})
 
+
+
+# @login_required
 def profile_view(request):
+    user = request.user  
+    user = "1"
+    api_url = f'https://bazar-price-tracker-api.onrender.com/api/user/market_managers/{user}/'
     
-    return render(request, 'profile.html',)
+    # Fetch profile data from API
+    response = requests.get(api_url)
+    manager_profile = response.json() if response.status_code == 200 else {}
+    
+    return render(request, 'profile.html', {'manager_profile': manager_profile})
+
+
+
+# @login_required
+def edit_profile(request):
+    user = 1  # assuming the user is authenticated
+    api_url = f'https://bazar-price-tracker-api.onrender.com/api/user/market_managers/{user}/'
+    
+    if request.method == 'POST':
+        form = EditMarketManagerForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = {
+                'username': form.cleaned_data['username'],
+                'email': form.cleaned_data['email'],
+                'market_name': form.cleaned_data['market_name'],
+                'phone': form.cleaned_data['phone'],
+            }
+            
+            # Handle profile picture if uploaded
+            files = {'profile_picture': request.FILES['profile_picture']} if 'profile_picture' in request.FILES else None
+            
+            # Send PUT request to update profile
+            response = requests.put(api_url, data=data, files=files)
+            
+            if response.status_code == 200:
+                messages.success(request, 'Profile updated successfully.')
+                return redirect('profile')
+            else:
+                messages.error(request, 'Failed to update profile.')
+    
+    else:
+        # Fetch current profile data to pre-fill the form
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            current_profile = response.json()
+            form = EditMarketManagerForm(initial={
+                'username': current_profile['username'],
+                'email': current_profile['email'],
+                'market_name': current_profile['market_name'],
+                'phone': current_profile['phone'],
+            })
+        else:
+            form = EditMarketManagerForm()
+
+    return render(request, 'edit_profile.html', {'form': form})

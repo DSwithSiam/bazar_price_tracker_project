@@ -1,19 +1,23 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% load static %}
-{% block title %} 
-Home 
-{% endblock title %} 
+{% block title %}
+Home
+{% endblock title %}
 
 {% block content %}
 
 <div class="profile-container">
     <div class="profile-header">
         <div class="profile-img">
-            <img src="/static/images/profile-pic.jpg" alt="Profile Picture">
+            <img src="{{ manager_profile.profile_picture }}" alt="Profile Picture">
         </div>
         <div class="profile-info">
-            <h1>{{ user.username }}</h1>
-            <p>{{ user.email }}</p>
+            <h1>{{ manager_profile.username }}</h1>
+            <p>{{ manager_profile.email }}</p>
+            <p>{{ manager_profile.phone }}</p>
+
+            <!-- Edit Profile Button -->
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
         </div>
     </div>
 
@@ -21,24 +25,41 @@ Home
         <h2>Manager Information</h2>
         <table class="profile-table">
             <tr>
-                <th>Full Name</th>
-                <td> user.first_name  user.last_name </td>
+                <th>Username</th>
+                <td>{{ manager_profile.username }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ manager_profile.role }}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>user.email</td>
+                <td>{{ manager_profile.email }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ manager_profile.phone }}</td>
             </tr>
             <tr>
                 <th>Market</th>
-                <td>user.market.name </td>
+                <td>{{ manager_profile.market_name }}</td>
             </tr>
         </table>
+
+        <!-- Conditional Options for Market -->
+        {% if manager_profile.market_name %}
+            <!-- If market exists, show Edit Market button -->
+            <a href="" class="btn btn-secondary">Edit Market</a>
+        {% else %}
+            <!-- If no market exists, show Create Market button -->
+            <a href="{% url 'create_market' %}" class="btn btn-primary">Create Market</a>
+        {% endif %}
 
         <!-- Add Item Section -->
         <h2>Add New Product</h2>
         <form method="POST" action="">
             {% csrf_token %}
-            <div class="form-group", >
+            <div class="form-group">
                 <label for="item_name">Product Name:</label>
                 <input type="text" id="item_name" name="item_name" class="form-control" required>
             </div>
@@ -46,11 +67,10 @@ Home
                 <label for="price">Price per kg:</label>
                 <input type="number" id="price" name="price" class="form-control" required>
             </div>
-            
+
             <div style="display: flex; justify-content: center; align-items: center;">
                 <button type="submit" class="btn btn-primary">Add Product</button>
             </div>
-            
         </form>
 
         <!-- Display Added Products -->
@@ -66,12 +86,11 @@ Home
             <tbody>
                 {% for product in products %}
                 <tr>
-                    <td>product.name </td>
-                    <td>product.price </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
                     <td>
-                        {% comment %} {% url 'update_product' product.id %} {% endcomment %}
-                        <a href="" class="btn btn-secondary">Update</a>
-                        <a href="" class="btn btn-danger">Delete</a>
+                        <a href="{% url 'update_product' product.id %}" class="btn btn-secondary">Update</a>
+                        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -80,7 +99,6 @@ Home
     </div>
 </div>
 
-<!-- Profile Page Styles -->
 <style>
     .profile-container {
         max-width: 900px;
@@ -163,7 +181,6 @@ Home
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
-        
     }
 
     .btn-primary {
@@ -202,10 +219,5 @@ Home
         background-color: #c82333;
     }
 </style>
-
-    
-    
-
-
 
 {% endblock %}
