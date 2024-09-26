@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -32,6 +33,7 @@ def fetch_products():
             products.append(product)
     
     return products
+
 
 
 def home(request):
@@ -81,7 +83,14 @@ def profile_view(request):
     response = requests.get(api_url)
     manager_profile = response.json() if response.status_code == 200 else {}
     
-    return render(request, 'profile.html', {'manager_profile': manager_profile})
+    products = []
+    
+    for product in fetch_products():
+        if manager_profile['market_name'] == product['market']:
+            products.append(product)
+    
+    
+    return render(request, 'profile.html', {'manager_profile': manager_profile, "products": products})
 
 
 
@@ -127,3 +136,54 @@ def edit_profile(request):
             form = EditMarketManagerForm()
 
     return render(request, 'edit_profile.html', {'form': form})
+
+
+
+
+ITEM_API_URL = "https://bazar-price-tracker-api.onrender.com/api/items/"
+PRODUCT_API_URL = "https://bazar-price-tracker-api.onrender.com/api/prices/"
+
+
+def get_or_create_item_from_api(item_name):
+    
+    response = requests.get(ITEM_API_URL, params={"name": item_name})
+    
+    items = response.json()
+    for item in items:
+        if item['name'] == item_name:
+            return item['id']
+    
+    # If item does not exist, create a new one via POST request
+    create_response = requests.post(ITEM_API_URL, json={"name": item_name})
+    if create_response.status_code == 201:
+        new_item = create_response.json()
+        return new_item['id']
+    else:
+        raise Exception(f"Error creating item: {create_response.text}")
+
+
+# View for adding a product
+def add_product_to_api_view(request):
+    if request.method == 'POST':
+        item_name = request.POST.get('item_name')
+        price_per_kg = request.POST.get('price')
+        market_id = 7
+        try:
+            item_id = get_or_create_item_from_api(item_name)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+        
+        product_data = {
+            "price_per_kg": price_per_kg,
+            "market": market_id,
+            "item": item_id
+        }
+        print("------------------------>", item_id)
+        
+        response = requests.post(PRODUCT_API_URL, json=product_data)
+        if response.status_code == 201:
+            return redirect('profile') 
+        else:
+            return JsonResponse({'error': f"Error adding product: {response.text}"}, status=400)
+
+    return redirect('profile') 

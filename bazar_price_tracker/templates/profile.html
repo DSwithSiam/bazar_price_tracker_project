@@ -57,7 +57,7 @@ Home
 
         <!-- Add Item Section -->
         <h2>Add New Product</h2>
-        <form method="POST" action="">
+        <form method="POST" action="{% url 'add_product' %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="item_name">Product Name:</label>
@@ -89,8 +89,8 @@ Home
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
                     <td>
-                        <a href="{% url 'update_product' product.id %}" class="btn btn-secondary">Update</a>
-                        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
+                        {% comment %} <a href="{% url 'update_product' product.id %}" class="btn btn-secondary">Update</a>
+                        <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a> {% endcomment %}
                     </td>
                 </tr>
                 {% endfor %}

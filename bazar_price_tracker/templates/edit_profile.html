@@ -1,51 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="text-center">EDIT PROFILE</h4>
+                <div class="card-header text-white">
+                    <h4 class="text-center">Edit Profile</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body ">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        <div class="m-auto mb-5 mt-5 col-10">
+                            <!-- Username Field -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" value="{{ form.username.value }}" required>
+                            </div>
 
-                        <!-- Username Field -->
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" value="{{ form.username.value }}" required>
-                        </div>
+                            <!-- Market Field -->
+                            <div class="mb-3">
+                                <label for="market_name" class="form-label">Market Name</label>
+                                <input type="text" class="form-control" id="market_name" name="market_name" placeholder="Enter your market name" value="{{ form.market_name.value }}" required>
+                            </div>
 
-                        <!-- Market Field -->
-                        <div class="mb-3">
-                            <label for="market_name" class="form-label">Market Name</label>
-                            <input type="text" class="form-control" id="market_name" name="market_name" placeholder="Enter your market name" value="{{ form.market_name.value }}" required>
-                        </div>
+                            <!-- Email Field -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com" value="{{ form.email.value }}" required>
+                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            </div>
 
-                        <!-- Email Field -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="example@email.com" value="{{ form.email.value }}" required>
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
+                            <!-- Phone Number Field -->
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="01751379009" value="{{ form.phone.value }}" required>
+                            </div>
 
-                        <!-- Phone Number Field -->
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="01751379009" value="{{ form.phone.value }}" required>
-                        </div>
+                            <!-- Profile Picture Field -->
+                            <div class="mb-3">
+                                <label for="profile_picture" class="form-label">Profile Picture</label>
+                                <input type="file" class="form-control" id="profile_picture" name="profile_picture">
+                            </div>
 
-                        <!-- Profile Picture Field -->
-                        <div class="mb-3">
-                            <label for="profile_picture" class="form-label">Profile Picture</label>
-                            <input type="file" class="form-control" id="profile_picture" name="profile_picture">
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-danger">Save Changes</button>
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-danger">Save Changes</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -54,7 +55,6 @@
     </div>
 </div>
 
-
 <style>
     .card {
         border-radius: 10px;
@@ -62,7 +62,16 @@
     }
     
     .card-header {
-        border-bottom: 1px solid #007bff; /* Bottom border for header */
+        border-bottom: 1px solid #007bff; 
+        
+        background-color: #28A745;
+    }
+    
+    .card-header h4{
+        font-size: 2rem;
+        font-weight: bold;
+        
+        
     }
     
     .form-control {
@@ -83,9 +92,12 @@
         background-color: #c82333; /* Darker shade on hover */
     }
     
+    .form-label {
+        color: white;
+    }
+
     .text-center {
         margin-top: 20px; /* Margin for spacing above button */
     }
-    
 </style>
 {% endblock %}
