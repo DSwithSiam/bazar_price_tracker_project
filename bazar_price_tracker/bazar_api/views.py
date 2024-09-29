@@ -3,7 +3,7 @@ import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from bazar_api.forms import EditMarketManagerForm
+from bazar_api.forms import EditMarketManagerForm, LoginForm
 
 
 def fetch_products():
@@ -73,10 +73,9 @@ def Search_results(request):
 
 
 
-# @login_required
+@login_required
 def profile_view(request):
     user = request.user  
-    user = "1"
     api_url = f'https://bazar-price-tracker-api.onrender.com/api/user/market_managers/{user}/'
     
     # Fetch profile data from API
@@ -94,9 +93,9 @@ def profile_view(request):
 
 
 
-# @login_required
+@login_required
 def edit_profile(request):
-    user = 1  # assuming the user is authenticated
+    user = request.user  
     api_url = f'https://bazar-price-tracker-api.onrender.com/api/user/market_managers/{user}/'
     
     if request.method == 'POST':
@@ -178,7 +177,6 @@ def add_product_to_api_view(request):
             "market": market_id,
             "item": item_id
         }
-        print("------------------------>", item_id)
         
         response = requests.post(PRODUCT_API_URL, json=product_data)
         if response.status_code == 201:
@@ -187,3 +185,38 @@ def add_product_to_api_view(request):
             return JsonResponse({'error': f"Error adding product: {response.text}"}, status=400)
 
     return redirect('profile') 
+
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            # API call to the external login API
+            api_url = 'https://bazar-price-tracker-api.onrender.com/api/user/login/'
+            data = {
+                'username': username,
+                'password': password
+            }
+
+            try:
+                response = requests.post(api_url, json=data)
+
+                # Handle the response from the API
+                if response.status_code == 200:
+                    messages.success(request, 'Login successful!')
+                    print("----------------------'Login successful!'---------------", request.user)
+                    # You can redirect to a different page here if needed
+                    return redirect('home')  # Assuming 'home' is a valid URL pattern
+                else:
+                    messages.error(request, 'Login failed. Please check your username and password.')
+            except requests.exceptions.RequestException as e:
+                messages.error(request, f"An error occurred: {e}")
+    else:
+        form = LoginForm()
+
+    return render(request, 'user_forms.html', {'form': form})
+
